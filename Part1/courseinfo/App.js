@@ -1,16 +1,27 @@
-const Header = (header) => {
+const Header = (props) => {
 
-  return <h1>{header.course}</h1>;
+  return <h1>{props.course}</h1>;
 
 };
+
 const Part = (props) => {
-  console.log(props)
+
   return (
-    <p>
+     <p>
      {props.name}   {props.exercises} 
     </p>
   );
 };
+const Content = (props) => {
+  console.log(props);
+  return (
+    <div> 
+        <Part name={props.parts[0].name}  exercises={props.parts[0].exercises} />
+     
+    </div>
+  );
+};
+
 
 
 const App = () => {
@@ -34,10 +45,13 @@ const App = () => {
 
 return (
       <div>
-      <Header course={course.name} />
-      <Part name={course.parts[0].name} exercises={course.parts[0].exercises}/>
-      <Part name={course.parts[1].name} exercises={course.parts[1].exercises}/>
-      <Part name={course.parts[2].name} exercises={course.parts[2].exercises}/>
+      <Header    course={course.name}/>
+      <Content   parts={course.parts}/>
+     
       </div>
 );
 };
+
+
+
+export default App;
