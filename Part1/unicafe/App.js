@@ -23,16 +23,17 @@ const Statistics = ({allClicks, good, neutral, bad}) => {
        <StatisticLine text="bad"        value={bad} />
        <StatisticLine text="all"        value={all} />
        <StatisticLine text="average "   value={average}/> 
-       <StatisticLine text="positive "  value={positive} /> 
+       <StatisticLine text="positive "  value={positive} percent={"%"} /> 
        </table>
       </div>
     )
 };
 
-const StatisticLine = ({text, value}) =>(
+const StatisticLine = ({text, value, percent}) =>(
   <tr>
     <td>{text}</td>
     <td>{value}</td>
+    <td>{percent}</td>
   </tr>
 
 
