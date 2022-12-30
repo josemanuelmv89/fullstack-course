@@ -37,7 +37,7 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
   const anecdotesClick = () => {
-    setSelected(console.log(selected + Math.floor(Math.random() * (6) )))
+    setSelected(selected + Math.floor(Math.random() * (6)))
   }
  
   return (
