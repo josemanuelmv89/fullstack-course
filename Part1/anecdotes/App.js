@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-const Aleayory = ({anecdotes, selected}) => {
+const Compnext = ({anecdotes, selected, vote}) => {
   if (selected === 0) {
     return (
 
@@ -14,6 +14,8 @@ const Aleayory = ({anecdotes, selected}) => {
     return (
       <div>
          {anecdotes[selected]}
+         <></>
+         <div>has {vote[selected]} votes</div> 
       </div>
     
     )
@@ -35,18 +37,26 @@ const App = () => {
  
 
   const [selected, setSelected] = useState(0)
-
   const anecdotesClick = () => {
-    setSelected(selected + Math.floor(Math.random() * (6)))
-  }
- 
+    let num_ramd = Math.floor(Math.random() * (6));
+    setSelected( num_ramd);
+    console.log(num_ramd);
+  };
+  const [vote, setVote] = useState(new Array(anecdotes.length).fill(0))
+  const voteClick = (evento) => {
+    evento.preventDefault();
+    let copy = {...vote };
+    copy[selected] += 1;
+    setVote(copy );
+    console.log(copy[selected]);
+  };
   return (
     <div>
-      
+      <Compnext  anecdotes={anecdotes}  selected={selected} vote={vote}/>
+      <button onClick={voteClick}>Vote </button>
       <button onClick={anecdotesClick}>Next anecdote </button>
-      <Aleayory  anecdotes={anecdotes}  selected={selected}> </Aleayory>
     </div>
   )
 }
 
-export default App
+export default App;
