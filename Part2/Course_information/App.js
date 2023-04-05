@@ -1,7 +1,7 @@
 const Course = ({course}) => {
   
   return (
-    <div>
+     <div>
        <h1>{course.name}</h1>
        {course.parts.map(cours=> (
               
@@ -12,6 +12,7 @@ const Course = ({course}) => {
   )
 
 };
+
 
 const App = () => {
 
@@ -41,9 +42,15 @@ const App = () => {
   };
   
   
+       
+  const suma = course.parts.reduce((s,p) =>
+  s + p.exercises,0 )
+  console.log('what is happening',suma)
+   
   return (
     
-      <Course course={course}/> 
+      <Course course={course} /> 
+    
      
   );
 
