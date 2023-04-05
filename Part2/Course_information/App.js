@@ -1,9 +1,13 @@
 const Course = ({course}) => {
+  console.log(course)
   return (
-
     <div>
-      {course.name}
-   </div>
+       {course.parts.map(cours=> (
+              
+           <li key={cours.id}>{cours.name}</li>
+           
+            ))}
+     </div>
   )
 
 };
@@ -35,9 +39,14 @@ const App = () => {
      ],
   };
   
-  console.log(course)
-  return <Course course={course} />     
+  
+  return (
+    
+      
+      <Course course={course}> </Course>
+     
+  );
 
-}
+};
      
 export default App
