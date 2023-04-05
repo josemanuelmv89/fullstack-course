@@ -1,10 +1,11 @@
 const Course = ({course}) => {
-  console.log(course)
+  
   return (
     <div>
+       <h1>{course.name}</h1>
        {course.parts.map(cours=> (
               
-           <li key={cours.id}>{cours.name}</li>
+           <li key={cours.id}>{cours.name} {cours.exercises}</li>
            
             ))}
      </div>
@@ -42,8 +43,7 @@ const App = () => {
   
   return (
     
-      
-      <Course course={course}> </Course>
+      <Course course={course}/> 
      
   );
 
