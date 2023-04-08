@@ -2,14 +2,8 @@ const Course = ({cours}) => {
 
   return (
      <div>
-           <Header  header={cours}/> 
-           
-           {cours.parts.map((c)=> {
-            console.log('what is happening',c.id,c.name)
-              return <p key={c.id}> {c.name}</p>
-            })}
-          
-
+         <Header  header={cours}/> 
+         <Content content={cours}/>
            
            {/*<ul>Total of exercises {suma} </ul>*/}
      </div>
@@ -22,7 +16,19 @@ return(
   <h1 key={header.id} >{header.name} </h1>
  )
 };
+const Content = ({content}) => {
 
+return(
+  <div>
+    {content.parts.map((c)=> {
+           /* console.log('what is happening',c.id,c.name)*/
+              return <p key={c.id}> {c.name}</p>
+            })}
+      
+  </div>
+
+)
+};
 
 
 
