@@ -1,25 +1,36 @@
-const Course = ({course,suma}) => {
-  
+const Course = ({cours}) => {
+
   return (
      <div>
-       <h1>{course.name}</h1>
-     
-       {course.parts.map(cours=> (
-              
-           <ul key={cours.id}>{cours.name} {cours.exercises} </ul>
+           <Header  header={cours}/> 
+           
+           {cours.parts.map((c)=> {
+            console.log('what is happening',c.id,c.name)
+              return <p key={c.id}> {c.name}</p>
+            })}
           
-            ))}
-           <ul>Total of exercises {suma} </ul>
+
+           
+           {/*<ul>Total of exercises {suma} </ul>*/}
      </div>
   )
-
 };
+
+const Header = ({header}) => {
+/*console.log('what is happening',cours.id,cours.name)*/
+return(
+  <h1 key={header.id} >{header.name} </h1>
+ )
+};
+
 
 
 
 const App = () => {
 
-  const course = {
+  const course = [
+  
+  {
   
     id: 1,
     name: 'Half Stack application development',
@@ -29,7 +40,6 @@ const App = () => {
         exercises: 10,
         id: 1,
       },
-  
       {
         name: 'Using props to pass data',
         exercises: 7,
@@ -41,21 +51,48 @@ const App = () => {
         exercises: 14,
         id: 3,
       },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4,
+      },
      ],
-  };
-  
+  },
+  {
+    id: 2,
+    name: 'node.js',
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1,
+      },
+
+      {
+        name: 'Middleware',
+        exercises: 7,
+        id: 2,
+      },
+  ],
+ },
+] 
   
        
-const suma = course.parts.reduce((s,p) =>
+ /*const suma = course.parts.reduce((s,p) =>
   s + p.exercises,0 )
- /* console.log('what is happening',suma)*/
+ console.log('what is happening',suma)*/
    
-  return (
+return (
+   <div>
+     {course.map((cours)=> {
+          
+      return <Course key={cours.id} cours={cours}/>
+       
+      })}
+
    
-      <Course course={course} suma={suma}  /> 
-     
-    
-   
+   </div>  
+  
   );
 
 };
