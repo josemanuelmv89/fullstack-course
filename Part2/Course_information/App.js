@@ -10,26 +10,32 @@ const Course = ({ cours }) => {
 
 const Header = ({ header }) => {
   /*console.log('what is happening',header.id,header.name)*/
-  return <h1 key={header.id}>{header.name} </h1>;
+  return <h2 key={header.id}>{header.name} </h2>;
 };
 const Content = ({ content }) => {
   const varcontent = content.parts.map((c) => {
-    /* console.log('what is happening',c.id,c.name)*/
-    return <p key={c.id}> {c.name}</p>;
+    /*console.log('what is happening',c.id,c.name,c.exercises)*/
+    return (
+      <p key={c.id}>
+        {" "}
+        {c.name} {c.exercises}
+      </p>
+    );
   });
   return <div>{varcontent}</div>;
 };
 const Suma = ({ suma }) => {
   const varsuma = suma.parts.reduce((s, p) => {
-    /*console.log('what is happening',varsuma)*/
+    /*console.log('what is happening',s + p.exercises,s,p.exercises)*/
     return s + p.exercises;
   }, 0);
   return (
     <div>
-      <h2>The total is {varsuma}</h2>
+      <h4>total of {varsuma} exercises</h4>
     </div>
   );
 };
+
 const App = () => {
   const course = [
     {
@@ -80,6 +86,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Web development curriculum</h1>
       {course.map((cours) => {
         return <Course key={cours.id} cours={cours} />;
       })}
