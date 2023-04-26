@@ -1,27 +1,46 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas"}]);
-  const [newName, setNewName] = useState("Jose Manuel");
+  const [newName, setNewName] = useState("");
+  const [persons, setPersons] = useState([
+    { id: 1, name: "Arto Hellas" },
+  ]);
 
   const addName = (event) => {
     event.preventDefault();
-    console.log("button clicked", event.target);
-    const persObject = { name: newName };
+    
+    const persObject = { id:persons.length + 1 , name: newName };
+    console.log("what is persObject", persObject);
+    console.log("what is newName", newName);
 
-    setPersons(persons.concat(persObject));
-    console.log('what is persObject',persObject)
-    setNewName("");
+    const personsfilter = persons.filter((f) => f.name === newName);
+    console.log("what is personsfilter", personsfilter);
+    console.log("what is persons", persons);
+    console.log("what is persObject.name", persObject.name);
+
+    if (personsfilter.length === 1) {
+      window.alert(`${newName} is already added to phonebook`);
+    } else {
+      setPersons(persons.concat(persObject));
+      setNewName("");
+    }
   };
 
   const handleNameChange = (event) => {
-    console.log(event.target.value);
-    setNewName(event.target.value);
+    const datainput = event.target.value;
+    /*console.log("what is datainput", datainput);*/
+    setNewName(datainput);
   };
 
- const PersonsComp = ({ individuo }) => {
-  console.log('what is individuo.name',individuo.name)
-    return <h4>{individuo.name} </h4>;
+  const PersonsComp = ({ persons }) => {
+ 
+    return (
+      <ul>
+        {persons.map((individuo) => {
+          return <div key={individuo.id}> {individuo.name}</div>;
+        })}
+      </ul>
+    );
   };
 
   return (
@@ -36,11 +55,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {persons.map(individuo => 
-          <PersonsComp key={individuo.name} individuo={individuo} />
-        )}
-      </ul>
+      <PersonsComp persons={persons} />
     </div>
   );
 };
