@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 
 const App = () => {
+  const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [persons, setPersons] = useState([
-    { id: 1, name: "Arto Hellas" },
+    { id: 1, number: "040-123456", name: "Arto Hellas" },
   ]);
 
   const addName = (event) => {
     event.preventDefault();
-    
-    const persObject = { id:persons.length + 1 , name: newName };
+
+    const persObject = {
+      id: persons.length + 1,
+      number: newNumber,
+      name: newName,
+    };
     console.log("what is persObject", persObject);
     console.log("what is newName", newName);
 
@@ -22,22 +27,35 @@ const App = () => {
       window.alert(`${newName} is already added to phonebook`);
     } else {
       setPersons(persons.concat(persObject));
+      console.log("what is setPersons", persons);
       setNewName("");
+      setNewNumber("");
     }
   };
 
   const handleNameChange = (event) => {
-    const datainput = event.target.value;
-    /*console.log("what is datainput", datainput);*/
-    setNewName(datainput);
+    const { value } = event.target;
+    console.log("what is value-1", value);
+    setNewName(value);
   };
 
-  const PersonsComp = ({ persons }) => {
+  const handleNumberChange = (event) => {
+    const { value } = event.target;
+    console.log("what is value-2", value);
+    setNewNumber(value);
+  };
  
+
+  const PersonsComp = ({ persons }) => {
     return (
       <ul>
         {persons.map((individuo) => {
-          return <div key={individuo.id}> {individuo.name}</div>;
+          return (
+            <div key={individuo.id}>
+              {" "}
+              {individuo.name} {individuo.number}
+            </div>
+          );
         })}
       </ul>
     );
@@ -50,6 +68,11 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
+
+        <div>
+          numero: <input value={newNumber} onChange={handleNumberChange} />
+        </div>
+
         <div>
           <button type="submit">add</button>
         </div>
