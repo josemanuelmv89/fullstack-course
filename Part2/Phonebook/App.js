@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Filter from "./components/Filter";
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
 
 const App = () => {
   const [newSearch, setSearch] = useState("");
@@ -11,7 +14,6 @@ const App = () => {
     { id: 3, number: "070-133456", name: "Elena Cruz" },
     { id: 4, number: "090-153456", name: "Milano Jose" },
   ]);
-  
 
   const addName = (event) => {
     event.preventDefault();
@@ -64,43 +66,20 @@ const App = () => {
     setNewNumber(value);
   };
 
-  const PersonsComp = ({ persons }) => {
-    return (
-      <ul>
-        {persons.map((individuo) => {
-          return (
-            <div key={individuo.id}>
-              {" "}
-              {individuo.name} {individuo.number}
-            </div>
-          );
-        })}
-      </ul>
-    );
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        Filter for name:{" "}
-        <input value={newSearch} onChange={handleFilterChange} />
-      </div>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-
-        <div>
-          numero: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <PersonsComp persons={persons} />
+      <Filter newSearch={newSearch} handleFilterChange={handleFilterChange} />
+      <h3>add a new</h3>
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
+      <h3>Numbers</h3>
+      <Persons persons={persons} />
     </div>
   );
 };
