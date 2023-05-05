@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [newNumber, setNewNumber] = useState("");
+  const [newSearch, setSearch] = useState("");
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
   const [persons, setPersons] = useState([
-    { id: 1, number: "040-123456", name: "Arto Hellas" },
+    { id: 0, number: "040-143456", name: "Mauricio Hellas" },
+    { id: 1, number: "020-123456", name: "Adonay Hellas" },
+    { id: 2, number: "030-223456", name: "Maria Berta" },
+    { id: 3, number: "070-133456", name: "Elena Cruz" },
+    { id: 4, number: "090-153456", name: "Milano Jose" },
   ]);
+  
 
   const addName = (event) => {
     event.preventDefault();
@@ -33,6 +39,19 @@ const App = () => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    const serch = event.target.value;
+    console.log("what is value seach", serch);
+    setSearch(serch);
+
+    setPersons(
+      persons.filter((f) =>
+        f.name.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
+      )
+    );
+    console.log("what is value persons", persons);
+  };
+
   const handleNameChange = (event) => {
     const { value } = event.target;
     console.log("what is value-1", value);
@@ -44,7 +63,6 @@ const App = () => {
     console.log("what is value-2", value);
     setNewNumber(value);
   };
- 
 
   const PersonsComp = ({ persons }) => {
     return (
@@ -64,6 +82,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        Filter for name:{" "}
+        <input value={newSearch} onChange={handleFilterChange} />
+      </div>
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
