@@ -45,13 +45,6 @@ const App = () => {
     const serch = event.target.value;
     console.log("what is value seach", serch);
     setSearch(serch);
-
-    setPersons(
-      persons.filter((f) =>
-        f.name.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
-      )
-    );
-    console.log("what is value persons", persons);
   };
 
   const handleNameChange = (event) => {
@@ -79,7 +72,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} />
+      <Persons persons={persons} newSearch={newSearch} />
     </div>
   );
 };
