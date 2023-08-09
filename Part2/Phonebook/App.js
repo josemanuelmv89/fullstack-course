@@ -18,23 +18,24 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
 
-    const persObject = {
+    const addperson = {
       id: persons.length + 1,
       number: newNumber,
       name: newName,
     };
-    console.log("what is persObject", persObject);
+
+    console.log("what is addperson", addperson);
     console.log("what is newName", newName);
 
-    const personsfilter = persons.filter((f) => f.name === newName);
-    console.log("what is personsfilter", personsfilter);
+    const addfilter = persons.filter((f) => f.name === newName);
+    console.log("what is addfilter", addfilter);
     console.log("what is persons", persons);
-    console.log("what is persObject.name", persObject.name);
+    console.log("what is addperson.name", addperson.name);
 
-    if (personsfilter.length === 1) {
+    if (addfilter.length === 1) {
       window.alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat(persObject));
+      setPersons(persons.concat(addperson));
       console.log("what is setPersons", persons);
       setNewName("");
       setNewNumber("");
@@ -42,21 +43,21 @@ const App = () => {
   };
 
   const handleFilterChange = (event) => {
-    const serch = event.target.value;
-    console.log("what is value seach", serch);
-    setSearch(serch);
+    const varserch = event.target.value;
+    console.log("what is value seach", varserch);
+    setSearch(varserch);
   };
 
   const handleNameChange = (event) => {
-    const { value } = event.target;
-    console.log("what is value-1", value);
-    setNewName(value);
+    const varname = event.target.value;
+    console.log("what is varnumber", varname);
+    setNewName(varname);
   };
 
   const handleNumberChange = (event) => {
-    const { value } = event.target;
-    console.log("what is value-2", value);
-    setNewNumber(value);
+    const varnumber = event.target.value;
+    console.log("what is varnumber", varnumber);
+    setNewNumber(varnumber);
   };
 
   return (
