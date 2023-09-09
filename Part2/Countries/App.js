@@ -1,9 +1,53 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const Show = ({ countries, newSearch }) => {
+  /*Filtro los paises y obtengo un arreglo de objetos*/
+  const varfilter = countries.filter((f) =>
+    f.name.common.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
+  );
+  /*console.log("varfilter", varfilter);*/
+  if (varfilter.length > 10) {
+    return (
+      <div>
+        <>'Too many matches, specify another filter'</>
+      </div>
+    );
+  } else if (varfilter.length === 1) {
+    return (
+      <div>
+        {/* Muestro el arreglo de objetos de tamaño 1*/}{" "}
+        {varfilter.map((coun) => {
+          return (
+            <div key={coun.capital}>
+              <h1>{coun.name.common}</h1>
+              <div>{`Capital: ${coun.capital}`}</div>
+              <h2>Spoken languages</h2>
+              <div>
+                {Object.values(coun.languages).map((p) => (
+                  <li key={p}>{p}</li>
+                ))}
+              </div>
+              <div>{`flag: ${coun.flags.svg}`}</div>
+            </div>
+          );
+        })}{" "}
+      </div>
+    );
+  } else if (varfilter.length > 1 || varfilter.length <= 10) {
+    return (
+      <div>
+        {/* Muestro el arreglo de objetos mayor que 1 o menor/igual que 10*/}{" "}
+        {varfilter.map((coun) => {
+          return <ul key={coun.capital}> {coun.name.common}</ul>;
+        })}{" "}
+      </div>
+    );
+  }
+};
 
-/*Creacion del componente filtro*/
-const Filter = ({ newSearch, handleFilterChange }) => {
+/*Creacion del componente barra de entrada de nombres de paises*/
+const Bar = ({ newSearch, handleFilterChange }) => {
   return (
     <div>
       Find countries: <input value={newSearch} onChange={handleFilterChange} />
@@ -15,10 +59,10 @@ const App = () => {
   const [newSearch, setSearch] = useState("");
   const [countries, setcountries] = useState([]);
 
-/*Data "falsa" de paises para realizar pruebas*/
+  /*Data "falsa" de paises para realizar pruebas*/
   useEffect(() => {
     console.log("effect");
-    axios.get("http://localhost:3002/countries").then((response) => {
+    axios.get("http://localhost:3003/all").then((response) => {
       console.log("promise fulfilled");
       setcountries(response.data);
     });
@@ -30,20 +74,12 @@ const App = () => {
     setSearch(serch);
   };
 
-  
-/*Filtrado de paises por busqueda*/
-  const filtercountries = countries.filter((f) =>
-    f.name.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
-  );
-  console.log("what is filtercountries", filtercountries);
+  /*Filtrado de paises por busqueda*/
+
   return (
     <div>
-      <Filter newSearch={newSearch} handleFilterChange={handleFilterChange} />
-      <ul>
-        {filtercountries.map((coun) => {
-          return <li key={coun.id}> {coun.name} {coun.number}</li>;
-        })}
-      </ul>
+      <Bar newSearch={newSearch} handleFilterChange={handleFilterChange} />
+      <Show countries={countries} newSearch={newSearch} />
     </div>
   );
 };
