@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import axios from "axios";
 
-const Show = ({ varfilter, infocountry, selectcountry }) => {
-  if (varfilter.length > 10) {
+const Show = ({ varfiltercountries, varfilterweather, infocountry, selectcountry }) => {
+  if (varfiltercountries.length > 10) {
     return (
       <div>
         <>'Too many matches, specify another filter'</>
       </div>
     );
-  } else if (varfilter.length === 1) {
-    return infocountry(varfilter);
-  } else if (varfilter.length > 1 || varfilter.length <= 10) {
+  } else if (varfiltercountries.length === 1) {
+    return infocountry(varfiltercountries, varfilterweather);
+  } else if (varfiltercountries.length > 1 || varfiltercountries.length <= 10) {
     return (
       <div>
         {/* Muestro el arreglo de objetos mayor que 1 o menor/igual que 10*/}{" "}
-        {varfilter.map((coun) => {
+        {varfiltercountries.map((coun) => {
           return (
             <ul key={coun.capital}>
               {" "}
@@ -46,33 +46,45 @@ const Bar = ({ newSearch, handleFilterChange }) => {
 const App = () => {
   const [newSearch, setSearch] = useState("");
   const [countries, setcountries] = useState([]);
+  const [weather, setweather] = useState([]);
+/*Obtencion de datos del servidor falsos y almacenamiento de datos en variables de useState*/
+  const getApisData = () => {
 
-  /*Data "falsa" de paises para realizar pruebas*/
-  useEffect(() => {
-    console.log("effect");
-    axios.get("http://localhost:3003/all").then((response) => {
-      console.log("promise fulfilled");
-      setcountries(response.data);
-    });
-  }, []);
+    let url1 = "https://studies.cs.helsinki.fi/restcountries/api/all";
+    let url2 = "http://localhost:3004/weather";
+    let endpoins = [url1, url2];
+    console.log("endpoins", endpoins);
+
+    Promise.all(endpoins.map((endpoint) => axios.get(endpoint))).then(
+      ([{ data: countries }, { data: weather }]) => {
+        console.log("two promise fulfilled");
+        setcountries(countries);
+        setweather(weather);
+      }
+    );
+  };
 
   const handleFilterChange = (event) => {
+    getApisData();
     const serch = event.target.value;
     console.log("newSearch", newSearch);
     setSearch(serch);
   };
   /*Filtro los paises y obtengo un arreglo de objetos*/
-  const varfilter = countries.filter((f) =>
+  const varfiltercountries = countries.filter((f) =>
     f.name.common.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
   );
-
+  const varfilterweather = weather.filter((g) =>
+    g.location.country.toLocaleLowerCase().includes(newSearch.toLocaleLowerCase())
+  );
   /*Esta funcion muestra informacion de un pais en particular*/
-  const infocountry = (varfilter) => {
-    console.log("varfilter", varfilter);
+  const infocountry = (varfiltercountries, varfilterweather) => {
+    console.log("varfiltercountries", varfiltercountries);
+    console.log("varfilterweather", varfilterweather);
     return (
       <div>
         {/* Muestro el arreglo de objetos de tamaño 1*/}{" "}
-        {varfilter.map((coun) => {
+        {varfiltercountries.map((coun) => {
           return (
             <div key={coun.capital}>
               <h1>{coun.name.common}</h1>
@@ -82,14 +94,28 @@ const App = () => {
                 {Object.values(coun.languages).map((p) => (
                   <li key={p}>{p}</li>
                 ))}
-              </div>
+              </div>{" "}
               <div>{`flag: ${coun.flags.svg}`}</div>
             </div>
           );
         })}{" "}
+        <div>
+          <h2>Weather</h2>
+          <div>
+            {varfilterweather.map((wea) => {
+              return (
+                <div key={wea.location.name}>
+                  <div>{`region: ${wea.location.region}`}</div>
+                  <div>{`temperature: ${wea.current.temperature}`}</div>
+                  <div>{`humidity: ${wea.current.humidity}`}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
-  };
+  }
   /*Si el usuario preciona selectcountry se actualiza el estado de la variable newsearch*/
   const selectcountry = (who) => {
     const parametercountry = who;
@@ -101,7 +127,8 @@ const App = () => {
     <div>
       <Bar newSearch={newSearch} handleFilterChange={handleFilterChange} />
       <Show
-        varfilter={varfilter}
+        varfiltercountries={varfiltercountries}
+        varfilterweather={varfilterweather}
         infocountry={infocountry}
         selectcountry={selectcountry}
       />
@@ -110,3 +137,6 @@ const App = () => {
 };
 
 export default App;
+
+
+
