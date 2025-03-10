@@ -30,6 +30,11 @@ let persons = [
     response.json(persons)
   })
 
+
+  app.get('/info', (request, response) => {
+    response.send(`Phonebook has info for ${persons.length} people <br/>${new Date()}`)
+   
+  })
   const PORT = 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
