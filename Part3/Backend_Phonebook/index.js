@@ -54,6 +54,32 @@ let persons = [
     response.status(204).end()
   })
   
+  const generateId = () => {
+    const maxId = Math.floor(Math.random() * 100)
+    return maxId
+  }
+  
+  app.post("/api/persons", (request, response) => {
+    const body = request.body
+  
+    if (!body.name) {
+      return response.status(400).json({
+        error: "content missing",
+      })
+    }
+  
+    const person = {
+      id: generateId(),
+      name: body.name,
+      number: Boolean(body.number) || false,
+    }
+  
+    persons = persons.concat(person)
+  
+    response.json(person)
+    
+  })
+  
   const PORT = 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
