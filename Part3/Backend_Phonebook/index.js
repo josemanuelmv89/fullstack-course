@@ -68,9 +68,7 @@ let persons = [
       })
     }
     const personName = body.name
-    const namefind = persons.find(person =>{console.log(person.id, typeof personName, person.name === personName)
-        return person.name === personName 
-        })
+    const namefind = persons.find(person => person.name === personName)
     if (namefind) {
       return response.status(400).json({
         error: "name must be unique"
