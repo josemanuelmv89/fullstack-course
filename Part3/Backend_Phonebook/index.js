@@ -62,16 +62,25 @@ let persons = [
   app.post("/api/persons", (request, response) => {
     const body = request.body
   
-    if (!body.name) {
+    if (!body.name || !body.number) {
       return response.status(400).json({
-        error: "content missing",
+        error: "name or number is not defined"
+      })
+    }
+    const personName = body.name
+    const namefind = persons.find(person =>{console.log(person.id, typeof personName, person.name === personName)
+        return person.name === personName 
+        })
+    if (namefind) {
+      return response.status(400).json({
+        error: "name must be unique"
       })
     }
   
     const person = {
       id: generateId(),
       name: body.name,
-      number: Boolean(body.number) || false,
+      number: body.number,
     }
   
     persons = persons.concat(person)
@@ -79,7 +88,7 @@ let persons = [
     response.json(person)
     
   })
-  
+
   const PORT = 3001
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
