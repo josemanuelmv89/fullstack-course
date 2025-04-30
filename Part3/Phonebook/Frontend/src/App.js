@@ -3,6 +3,7 @@ import axios from "axios";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+const baseUrl = "/api/persons";
 
 const App = () => {
   const [newSearch, setSearch] = useState("");
@@ -12,7 +13,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("effect");
-    axios.get("http://localhost:3001/api/persons").then((response) => {
+    axios.get(baseUrl).then((response) => {
       console.log("promise fulfilled");
       setPersons(response.data);
     });
