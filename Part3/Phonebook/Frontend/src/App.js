@@ -9,10 +9,10 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [persons, setPersons] = useState([]);
-
+  const baseUrl = "/api/persons";
   useEffect(() => {
     console.log("effect");
-    axios.get("http://localhost:3001/api/persons").then((response) => {
+    axios.get(baseUrl).then((response) => {
       console.log("promise fulfilled");
       setPersons(response.data);
     });
